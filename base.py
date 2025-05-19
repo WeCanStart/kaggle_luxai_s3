@@ -214,11 +214,6 @@ def sq_distance(a: tuple, b: tuple) -> int:
     return max(abs(a[0] - b[0]), abs(a[1] - b[1]))
 
 
-def printDebug(msg):
-    if os.path.isfile("huyatina"):
-        print("step =", Global.STEP, " ", msg, file=stderr)
-
-
 def get_conditional_variants(
     variants: list[list[tuple[int, int]]],
 ) -> list[list[tuple[int, int]]]:

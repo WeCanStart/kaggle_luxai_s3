@@ -6,8 +6,6 @@ import os
 
 
 def show_energy_field(space, only_visible=True):
-    if not os.path.isfile("huyatina"):
-        return
     line = " + " + " ".join([f"{x:>2}" for x in range(Global.SPACE_SIZE)]) + "  +\n"
     str_grid = line
     for y in range(Global.SPACE_SIZE):
@@ -27,8 +25,6 @@ def show_energy_field(space, only_visible=True):
 
 
 def show_map(space, fleet=None, only_visible=True):
-    if not os.path.isfile("huyatina"):
-        return
     """
     legend:
         n - nebula
@@ -84,8 +80,6 @@ def show_map(space, fleet=None, only_visible=True):
 
 
 def show_exploration_map(space):
-    if not os.path.isfile("huyatina"):
-        return
     """
     legend:
         R - relic

@@ -3,9 +3,6 @@ import copy
 import numpy as np
 import math
 
-if os.path.isfile("huyatina"):
-    from pyinstrument import Profiler
-
 from fleet import Fleet
 from space import Space
 from node import Node
@@ -66,13 +63,6 @@ class Agent:
 
         self.weights = Weights()
 
-        file = "huyatina"
-        if os.path.isfile(file):
-            printDebug("profiling")
-            self.profiler = Profiler()
-        else:
-            self.profiler = None
-
     def act(self, step: int, obs, remainingOverageTime: int = 60):
         match_step = get_match_step(step)
         Global.STEP = step
@@ -125,12 +115,6 @@ class Agent:
                         ship.action=ActionType.from_coordinates(ship.coordinates, opp_ship.coordinates)
         self.do_dirty(obs)
 
-        if step % 47 == 0:
-            if self.profiler:
-                self.profiler.start()
-
-
-
         for ship in self.fleet:
             ship_value=1
             if not ship.node.reward:
@@ -147,9 +131,6 @@ class Agent:
                 self.memo_enemy_pos_value[(x,y)]=np.max(our_ships_value[x_min:x_max,y_min:y_max])
 
         self.next_opposite_fleet = self.calc_reward_enemy_distribution()
-
-
-
 
         for ship in self.opp_fleet:
             if ship.energy < 0:
@@ -173,19 +154,7 @@ class Agent:
         self.contest()
         self.gain_energy()
         self.shoot()
-
-        if step % 47 == 0:
-            if self.profiler:
-                self.profiler.stop()
-                with open(
-                    f"f\\profiler{self.team_id}_{step}.txt", "w", encoding="utf-8"
-                ) as f:
-                    f.write(
-                        self.profiler.output_text(
-                            unicode=True, color=False, show_all=True
-                        )
-                    )
-                # printDebug(self.profiler.output_text(unicode=True, color=True, show_all=True))
+        # printDebug(self.profiler.output_text(unicode=True, color=True, show_all=True))
 
         return self.create_actions_array()
     
